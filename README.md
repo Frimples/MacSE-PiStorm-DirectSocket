@@ -93,7 +93,7 @@ The source project must contain `pistorm.v`, `pistorm.sdc`, `pistorm_epm240.qpf`
 quartus_map pistorm_epm240
 quartus_fit pistorm_epm240
 quartus_asm pistorm_epm240
-quartus_cpf -c -q 10.0MHz -g 3.3 -n p \
+quartus_cpf -c -q 100.0kHz -g 3.3 -n p \
    output_files/pistorm_epm240.pof \
    output_files/pistorm_epm240.svf
 ```

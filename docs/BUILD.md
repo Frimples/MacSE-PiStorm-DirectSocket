@@ -30,12 +30,12 @@ Map was then run directly to prove that the RTL was actually compiled before fit
 quartus_map pistorm_epm240
 quartus_fit pistorm_epm240
 quartus_asm pistorm_epm240
-quartus_cpf -c -q 10.0MHz -g 3.3 -n p \
+quartus_cpf -c -q 100.0kHz -g 3.3 -n p \
    output_files/pistorm_epm240.pof \
    output_files/pistorm_epm240.svf
 ```
 
-The explicit `-n p` option is required for Quartus CPF to create a programming SVF from the POF.
+The explicit `-n p` option is required for Quartus CPF to create a programming SVF from the POF. Use `100.0kHz`, matching the repository's known-good EPM240 SVFs; generating at 10 MHz produces approximately 100x larger `RUNTEST` waits and can make `pistormflash` appear to hang.
 
 ## Recorded result
 
