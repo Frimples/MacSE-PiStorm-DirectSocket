@@ -43,10 +43,19 @@ Rotation:  0 degrees
 Footprint: TQFP100_N (from BOM)
 ```
 
-The provisional CSV records a 100-pad TQFP coordinate model centered on that
-placement. The pad numbering and exact pad-center offset are **not yet verified**
-from the Gerber geometry; the CSV intentionally leaves all logical nets as
-`UNKNOWN`.
+The top-paste Gerber (`GTP`) contains exactly 100 obround pad apertures in the U4 region:
+
+- 25 pads on each side;
+- 0.5 mm pitch;
+- top row: X=7.10..19.10 mm, Y=42.77 mm;
+- right row: X=20.65 mm, Y=44.32..56.32 mm;
+- bottom row: X=19.10..7.10 mm, Y=57.82 mm;
+- left row: X=5.55 mm, Y=56.32..44.32 mm.
+
+These coordinates are measured from the Gerber pad apertures and are more reliable
+than the earlier nominal model. The physical side/index labels in the CSV are
+not yet assigned to manufacturer pin numbers because the pin-1 marker and package
+orientation still need to be tied to the exact footprint definition.
 
 ## What can be recovered from these Gerbers
 
