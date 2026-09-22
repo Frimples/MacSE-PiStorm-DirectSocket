@@ -10,7 +10,13 @@ socket. It is **not** the PDS-card project.
   - CPLD asserts `/BG` only between Pi bus cycles;
   - address/data output enables are forced inactive while the motherboard owns
     the bus;
-  - `/BG` remains asserted until both `/BR` and `/BGACK` are released.
+  - `/BG` remains asserted until the motherboard acknowledges and releases the
+    bus.
+- Synchronizes asynchronous `/BR` and `/BGACK` inputs before arbitration.
+- Releases the CPU control outputs (`FC`, `/AS`, `/UDS`, `/LDS`, `R/W`, `/VMA`)
+  to high impedance during an external bus grant.
+- Initializes reset, interrupt, synchronizer, and transaction state
+  deterministically at power-up.
 - Added optional FC2..FC0 transport in `PI_D[12:10]` during `REG_ADDR_HI`.
   Existing callers that leave those spare bits zero remain protocol-compatible.
 - Preserved the existing E-clock, VPA/VMA, DTACK, interrupt, and latch timing

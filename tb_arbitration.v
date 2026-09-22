@@ -19,6 +19,9 @@ module tb;
     M68K_BR_n=0;
     repeat(200) @(posedge PI_CLK);
     if (M68K_BG_n !== 1'b0) $fatal(1,"BG did not assert after BR");
+    if (M68K_AS_n !== 1'bz || M68K_UDS_n !== 1'bz || M68K_LDS_n !== 1'bz ||
+        M68K_RW !== 1'bz || M68K_VMA_n !== 1'bz || M68K_FC !== 3'bzzz)
+      $fatal(1,"CPU control outputs were not tri-stated during BG");
     // External bus master acknowledges; BR must remain asserted until it leaves.
     M68K_BGACK_n=0;
     repeat(50) @(posedge PI_CLK);

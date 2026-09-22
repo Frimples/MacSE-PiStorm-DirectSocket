@@ -25,19 +25,19 @@ module pistorm(
     output reg      LTCH_D_WR_OE_n,
 
     input           M68K_CLK,
-    output  reg [2:0] M68K_FC,
+    inout       [2:0] M68K_FC,
 
-    output reg      M68K_AS_n,
-    output reg      M68K_UDS_n,
-    output reg      M68K_LDS_n,
-    output reg      M68K_RW,
+    inout           M68K_AS_n,
+    inout           M68K_UDS_n,
+    inout           M68K_LDS_n,
+    inout           M68K_RW,
 
     input           M68K_DTACK_n,
     input           M68K_BERR_n,
 
     input           M68K_VPA_n,
     output reg      M68K_E,
-    output reg      M68K_VMA_n,
+    inout           M68K_VMA_n,
 
     input   [2:0]   M68K_IPL_n,
 
@@ -52,8 +52,11 @@ module pistorm(
     input           CLK_SEL
   );
 
+  reg [2:0] M68K_FC_r;
+  reg M68K_AS_n_r, M68K_UDS_n_r, M68K_LDS_n_r, M68K_RW_r, M68K_VMA_n_r;
+
   wire c200m = PI_CLK;
-  reg [2:0] c7m_sync;
+  reg [2:0] c7m_sync = 3'd0;
 //  wire c7m = M68K_CLK;
   wire c7m = c7m_sync[2];
   wire c1c3_clk = !(M68K_C1 ^ M68K_C3);
@@ -69,18 +72,20 @@ module pistorm(
 
     PI_RESET <= 1'b0;
 
-    M68K_FC <= 3'd0;
-
-    M68K_RW <= 1'b1;
+    M68K_FC_r <= 3'd0;
+    M68K_AS_n_r <= 1'b1;
+    M68K_UDS_n_r <= 1'b1;
+    M68K_LDS_n_r <= 1'b1;
+    M68K_RW_r <= 1'b1;
 
     M68K_E <= 1'b0;
-    M68K_VMA_n <= 1'b1;
+    M68K_VMA_n_r <= 1'b1;
 
     M68K_BG_n <= 1'b1;
   end
 
-  reg [1:0] rd_sync;
-  reg [1:0] wr_sync;
+  reg [1:0] rd_sync = 2'd0;
+  reg [1:0] wr_sync = 2'd0;
 
   always @(posedge c200m) begin
     rd_sync <= {rd_sync[0], PI_RD};
@@ -99,7 +104,8 @@ module pistorm(
     end
   end
 
-  reg [15:0] status;
+  // Power-up must hold the SE CPU in reset until the Pi explicitly releases it.
+  reg [15:0] status = 16'h0000;
   wire reset_out = !status[1];
 
   assign M68K_RESET_n = reset_out ? 1'b0 : 1'bz;
@@ -127,7 +133,7 @@ module pistorm(
     LTCH_D_RD_OE_n <= !(PI_A == REG_DATA && PI_RD);
   end
 
-  reg a0;
+  reg a0 = 1'b0;
 
   always @(posedge c200m) begin
     c7m_sync <= {c7m_sync[1:0], (CLK_SEL?M68K_CLK:c1c3_clk)};
@@ -136,9 +142,9 @@ module pistorm(
   wire c7m_rising = !c7m_sync[2] && c7m_sync[1];
   wire c7m_falling = c7m_sync[2] && !c7m_sync[1];
 
-  reg [2:0] ipl;
-  reg [2:0] ipl_1;
-  reg [2:0] ipl_2;
+  reg [2:0] ipl = 3'd0;
+  reg [2:0] ipl_1 = 3'd0;
+  reg [2:0] ipl_2 = 3'd0;
 
   always @(posedge c200m) begin
     if (c7m_falling) begin
@@ -173,7 +179,16 @@ module pistorm(
   end
 
   reg [2:0] state = 3'd0;
-  reg [2:0] PI_TXN_IN_PROGRESS_delay;
+  reg [2:0] PI_TXN_IN_PROGRESS_delay = 3'd0;
+
+  // /BR and /BGACK are asynchronous to PI_CLK.  Synchronize them before the
+  // arbitration state machine uses them.
+  reg [1:0] br_sync = 2'b11;
+  reg [1:0] bgack_sync = 2'b11;
+  always @(posedge c200m) begin
+    br_sync <= {br_sync[0], M68K_BR_n};
+    bgack_sync <= {bgack_sync[0], M68K_BGACK_n};
+  end
 
   // Direct CPU-socket arbitration.  The SE motherboard may request the
   // processor bus for DMA/peripheral work.  The emulated CPU must grant it
@@ -181,25 +196,39 @@ module pistorm(
   // motherboard releases BGACK.  This is separate from the PDS takeover
   // design; here the PiStorm is the CPU and M68K_BR_n is an input.
   reg bus_grant = 1'b0;
+  reg bus_ack_seen = 1'b0;
+
+  // A granted external bus master must see the CPU-side control outputs
+  // released, not driven inactive.  This models the 68000 three-state bus.
+  assign M68K_FC = bus_grant ? 3'bz : M68K_FC_r;
+  assign M68K_AS_n = bus_grant ? 1'bz : M68K_AS_n_r;
+  assign M68K_UDS_n = bus_grant ? 1'bz : M68K_UDS_n_r;
+  assign M68K_LDS_n = bus_grant ? 1'bz : M68K_LDS_n_r;
+  assign M68K_RW = bus_grant ? 1'bz : M68K_RW_r;
+  assign M68K_VMA_n = bus_grant ? 1'bz : M68K_VMA_n_r;
 
   always @(posedge c200m) begin
 
     // Three-wire 68000 arbitration, synchronized in the CPLD clock domain.
     // /BG is active low.  Do not grant during an active Pi transaction.
-    if (!bus_grant && !M68K_BR_n &&
+    if (!bus_grant && !br_sync[1] &&
         ((state == 3'd0) || (state == 3'd1 && !op_req))) begin
       bus_grant <= 1'b1;
+      bus_ack_seen <= 1'b0;
       M68K_BG_n <= 1'b0;
       state <= 3'd0;
       LTCH_A_OE_n <= 1'b1;
       LTCH_D_WR_OE_n <= 1'b1;
-      M68K_AS_n <= 1'b1;
-      M68K_UDS_n <= 1'b1;
-      M68K_LDS_n <= 1'b1;
-      M68K_VMA_n <= 1'b1;
+      M68K_AS_n_r <= 1'b1;
+      M68K_UDS_n_r <= 1'b1;
+      M68K_LDS_n_r <= 1'b1;
+      M68K_VMA_n_r <= 1'b1;
       PI_TXN_IN_PROGRESS <= 1'b0;
     end
-    else if (bus_grant && M68K_BR_n && M68K_BGACK_n) begin
+    else if (bus_grant && !bgack_sync[1]) begin
+      bus_ack_seen <= 1'b1;
+    end
+    else if (bus_grant && bus_ack_seen && bgack_sync[1]) begin
       bus_grant <= 1'b0;
       M68K_BG_n <= 1'b1;
     end
@@ -226,7 +255,7 @@ module pistorm(
     if (!bus_grant) begin
       case (state)
       3'd0: begin // S0
-        M68K_RW <= 1'b1; // S7 -> S0
+        M68K_RW_r <= 1'b1; // S7 -> S0
 //        if (c7m_falling) begin
 //          if (op_req) begin
             state <= 2'd1;
@@ -242,16 +271,16 @@ module pistorm(
         end
       end
       3'd2: begin // S2
-        M68K_FC <= op_fc;
-        M68K_RW <= op_rw; // S1 -> S2
+        M68K_FC_r <= op_fc;
+        M68K_RW_r <= op_rw; // S1 -> S2
         LTCH_D_WR_OE_n <= op_rw;
         LTCH_A_OE_n <= 1'b0;
-        M68K_AS_n <= 1'b0;
-        M68K_UDS_n <= op_rw ? op_uds_n : 1'b1;
-        M68K_LDS_n <= op_rw ? op_lds_n : 1'b1;
+        M68K_AS_n_r <= 1'b0;
+        M68K_UDS_n_r <= op_rw ? op_uds_n : 1'b1;
+        M68K_LDS_n_r <= op_rw ? op_lds_n : 1'b1;
         if (c7m_falling) begin
-          M68K_UDS_n <= op_uds_n;
-          M68K_LDS_n <= op_lds_n;
+          M68K_UDS_n_r <= op_uds_n;
+          M68K_LDS_n_r <= op_lds_n;
           state <= 3'd3;
         end
       end
@@ -265,7 +294,7 @@ module pistorm(
           end
           else begin
             if (!M68K_VPA_n && e_counter == 4'd2) begin
-              M68K_VMA_n <= 1'b0;
+              M68K_VMA_n_r <= 1'b0;
             end
           end
         end
@@ -291,7 +320,7 @@ module pistorm(
        
       3'd6: begin // S6
         if (c7m_falling) begin
-          M68K_VMA_n <= 1'b1;
+          M68K_VMA_n_r <= 1'b1;
           state <= 3'd7;
         end
       end
@@ -299,11 +328,11 @@ module pistorm(
       3'd7: begin // S7
         LTCH_D_WR_OE_n <= 1'b1;
         LTCH_A_OE_n <= 1'b1;
-        M68K_AS_n <= 1'b1;
-        M68K_UDS_n <= 1'b1;
-        M68K_LDS_n <= 1'b1;
+        M68K_AS_n_r <= 1'b1;
+        M68K_UDS_n_r <= 1'b1;
+        M68K_LDS_n_r <= 1'b1;
 //        if(c7m_rising) begin
-//          M68K_RW <= 1'b1; // S7 -> S0
+//          M68K_RW_r <= 1'b1; // S7 -> S0
           state <= 3'd0;
 //        end
       end
