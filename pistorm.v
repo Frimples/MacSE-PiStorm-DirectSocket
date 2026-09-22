@@ -341,13 +341,18 @@ module pistorm(
             PI_TXN_IN_PROGRESS_delay[2:0] <= 3'b111;
           end
           else if (!vpa_sync[1]) begin
-            if (!M68K_E)
+            // The SE's M6800 peripherals require VMA at the established
+            // E-clock phase, not merely at an arbitrary time while E is low.
+            // Preserve the proven PiStorm phase relationship while sampling
+            // VPA on the required falling-edge response phase.
+            if (!M68K_E && e_counter == 4'd2)
               M68K_VMA_n_r <= 1'b0;
             else
               vpa_pending <= 1'b1;
           end
         end
-        if (vpa_pending && !M68K_E && dtack_sync[1] && berr_sync[1]) begin
+        if (vpa_pending && !vpa_sync[1] && !M68K_E && e_counter == 4'd2 &&
+            dtack_sync[1] && berr_sync[1]) begin
           M68K_VMA_n_r <= 1'b0;
           vpa_pending <= 1'b0;
         end
