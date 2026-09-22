@@ -1,0 +1,23 @@
+# Quartus generated state and temporary output
+*.qws
+*.bak
+*.tmp
+/db/
+/incremental_db/
+/output_files/*
+!output_files/.gitkeep
+
+# Simulation build products
+*.vvp
+*.vcd
+*.wlf
+
+# Local/editor/system files
+.DS_Store
+*.swp
+*.swo
+
+# Private/local transfer helpers
+*.local
+.env
+.env.*

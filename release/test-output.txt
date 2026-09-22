@@ -1,5 +1,0 @@
-PASS: direct-socket BR/BG/BGACK arbitration
-/home/xander/macSE_research/MacSE-PiStorm-DirectSocket-RTL/tb_arbitration.v:36: $finish called at 2247500 (1ps)
-PASS: E clock period and VPA/VMA transaction ran; E rises=16
-/home/xander/macSE_research/MacSE-PiStorm-DirectSocket-RTL/tb_timing.v:54: $finish called at 20117500 (1ps)
-ALL RTL TESTS PASSED
