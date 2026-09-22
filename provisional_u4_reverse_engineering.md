@@ -80,7 +80,7 @@ EPM240/EPM570 pin 37 -> top copper -> via near (0.49606, 1.77933 in)
 EPM240/EPM570 pin 39 -> top copper -> via at (0.49606, 1.57362 in)
                        -> inner layer G2 and bottom copper
 
-EPM240/EPM570 pin 88 -> top copper -> via near (0.51575, 2.22717 in)
+EPM240/EPM570 pin 38 -> top copper -> via near (0.51575, 2.22717 in)
                        -> bottom copper through a wider copper feature
 
 EPM240/EPM570 pin 90 -> no separate via found at the pad center in this pass
@@ -93,32 +93,18 @@ of a via does not distinguish a same-layer route from a copper pour or an
 unconnected/unused pad.
 
 
-## Physical copper join requiring orientation resolution
+## Pin-1 orientation resolved from Gerber silkscreen
 
-The Gerber walk found a continuous copper path:
+The U4 silkscreen contains a pin-1 arc centered near `(0.30906, 1.77441 in)`.
+It is at the lower-left of the Gerber footprint. With the board artwork
+orientation used by the CPL/GERBER export, the pad numbering is therefore:
 
-```text
-U4 pad center (0.51575, 2.27835 in)
-  -> via (0.51575, 2.22717 in)
-  -> bottom copper diagonal to (0.26969, 1.98110 in)
-  -> top copper to the pad at (0.21850, 1.98110 in)
-```
+- left side, low-to-high Y: pins 1..25;
+- high-Y row, low-to-high X: pins 26..50;
+- right side, high-to-low Y: pins 51..75;
+- low-Y row, high-to-low X: pins 76..100.
 
-This is a real physical pad-to-pad copper connection in the exported artwork.
-The logical pin numbers cannot be assigned until the Gerber/CAD Y orientation is
-resolved against the U4 pin-1 marker:
-
-- Under the unmirrored Altera top-view convention, the pair would be candidate
-  pins 88 and 13.
-- Under the vertically mirrored board-artwork convention indicated by the
-  apparent lower-left silkscreen marker, the same physical pads would instead be
-  candidate pins 38 and 13.
-
-This distinction matters because EPM240 pin 88 is I/O while EPM570 pin 88 is
-VCCINT; pin 38 is I/O in both devices. The copper join therefore cannot yet be
-used to prove or disprove the BOM device until the pin-1 marker orientation is
-settled. A clear photo of U4 pin 1, the original PCB footprint, or the Altium
-source would resolve it immediately.
+The CSV has been corrected to include these physical-to-device pin numbers.
 
 
 1. Locate the 100 U4 land pads from the top paste/solder-mask/copper layers.
