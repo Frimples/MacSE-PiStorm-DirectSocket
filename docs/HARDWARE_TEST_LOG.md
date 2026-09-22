@@ -59,3 +59,18 @@ Before judging native SCSI emulation, power the SE down and verify the physical 
 - termination power is present and the terminator type matches the bus/device requirements.
 
 After correcting the topology, rerun SCSI Probe with the normal SCSI devices connected. A termination warning can prevent reliable device selection and should be resolved before diagnosing higher-level native SCSI behavior. It does not explain the simultaneous video/audio artifacts.
+
+## Timing audit — MC68000 comparison
+
+The Motorola/Freescale *M68000 8-/16-/32-bit Microprocessors User's Manual* states that a bus cycle has eight states, that S4 waits for `DTACK`/`BERR`/`VPA`, and that `VPA` and `BERR` are sampled on every **falling** clock edge beginning with S4. The current RTL's state-3 termination block at `pistorm.v` checks synchronized `DTACK`, `BERR`, and `VPA` only when `c7m_rising` is true. That is a concrete phase mismatch to correct and test; it is not a speculative diagnosis.
+
+The same manual specifies E as a ten-CPU-clock free-running signal: six clocks low and four clocks high. At 7.8336 MHz, the calculated values are approximately:
+
+```text
+CPU period: 127.655 ns
+E period:   1,276.552 ns
+E high:       510.621 ns
+E low:        765.931 ns
+```
+
+The RTL's counter ratio produces the correct nominal 10-clock period and 4/6 duty ratio in simulation, but its phase relative to `/AS`, `VPA`, `VMA`, and the physical SE remains unverified. Reference: https://www.nxp.com/docs/en/reference-manual/MC68000UM.pdf, Section 4 and Section 10.11.
