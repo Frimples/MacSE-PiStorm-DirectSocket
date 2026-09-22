@@ -33,3 +33,15 @@ This is the first real hardware evidence that the generated EPM240 image is elec
 4. Test repeated reset and cold power cycles.
 5. Test VIA/SCC accesses independently of SCSI.
 6. Keep native SCSI disabled from the CPLD verdict: it requires a separate software/device-emulation implementation and is not a native consequence of this gateware.
+
+## Follow-up observation — persistent video and audio artifacts
+
+The artifacts remain after boot and audio artifacts are also present. Because the SE's video and sound DMA share the motherboard memory system, simultaneous video and audio corruption points first to a shared bus timing, RAM-write, E-clock, or bus-contention issue. This is a working hypothesis, not a confirmed root cause.
+
+Priority isolation sequence:
+
+1. Run the SE with audio activity minimized and compare screen corruption; then run a display-stable screen with audio activity. Record whether either symptom changes independently.
+2. Compare cold boot and reset-only recovery, and record whether the artifact pattern is fixed, moving, or correlated with screen updates.
+3. Capture `M68K_CLK`, generated E-clock, `/AS`, `/UDS`, `/LDS`, `R/W`, `/DTACK`, `/VPA`, `/VMA`, address/data latch enables, and data-transceiver enables on the same time base.
+4. Check whether CPU writes are reaching motherboard RAM with correct width and strobe timing; video/audio DMA must continue seeing coherent RAM contents.
+5. Do not change E-clock divisors, latch polarity, or bus timing together. Test one controlled firmware variant at a time and preserve the currently booting image for rollback.
