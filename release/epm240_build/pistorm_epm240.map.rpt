@@ -1,5 +1,5 @@
 Analysis & Synthesis report for pistorm_epm240
-Mon Sep 21 21:25:56 2026
+Mon Sep 21 22:27:28 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -45,12 +45,12 @@ on the Quartus Prime software download page.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +-----------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status ; Successful - Mon Sep 21 21:25:56 2026           ;
+; Analysis & Synthesis Status ; Successful - Mon Sep 21 22:27:27 2026           ;
 ; Quartus Prime Version       ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
 ; Revision Name               ; pistorm_epm240                                  ;
 ; Top-level Entity Name       ; pistorm                                         ;
 ; Family                      ; MAX II                                          ;
-; Total logic elements        ; 136                                             ;
+; Total logic elements        ; 138                                             ;
 ; Total pins                  ; 59                                              ;
 ; Total virtual pins          ; 0                                               ;
 ; UFM blocks                  ; 0 / 1 ( 0 % )                                   ;
@@ -159,32 +159,32 @@ on the Quartus Prime software download page.
 +---------------------------------------------+--------+
 ; Resource                                    ; Usage  ;
 +---------------------------------------------+--------+
-; Total logic elements                        ; 136    ;
-;     -- Combinational with no register       ; 66     ;
+; Total logic elements                        ; 138    ;
+;     -- Combinational with no register       ; 67     ;
 ;     -- Register only                        ; 23     ;
-;     -- Combinational with a register        ; 47     ;
+;     -- Combinational with a register        ; 48     ;
 ;                                             ;        ;
 ; Logic element usage by number of LUT inputs ;        ;
 ;     -- 4 input functions                    ; 76     ;
-;     -- 3 input functions                    ; 14     ;
-;     -- 2 input functions                    ; 14     ;
+;     -- 3 input functions                    ; 17     ;
+;     -- 2 input functions                    ; 13     ;
 ;     -- 1 input functions                    ; 9      ;
 ;     -- 0 input functions                    ; 0      ;
 ;                                             ;        ;
 ; Logic elements by mode                      ;        ;
-;     -- normal mode                          ; 136    ;
+;     -- normal mode                          ; 138    ;
 ;     -- arithmetic mode                      ; 0      ;
 ;     -- qfbk mode                            ; 0      ;
 ;     -- register cascade mode                ; 0      ;
 ;     -- synchronous clear/load mode          ; 0      ;
 ;     -- asynchronous clear/load mode         ; 0      ;
 ;                                             ;        ;
-; Total registers                             ; 70     ;
+; Total registers                             ; 71     ;
 ; I/O pins                                    ; 59     ;
 ; Maximum fan-out node                        ; PI_CLK ;
-; Maximum fan-out                             ; 70     ;
-; Total fan-out                               ; 558    ;
-; Average fan-out                             ; 2.86   ;
+; Maximum fan-out                             ; 71     ;
+; Total fan-out                               ; 567    ;
+; Average fan-out                             ; 2.88   ;
 +---------------------------------------------+--------+
 
 
@@ -193,7 +193,7 @@ on the Quartus Prime software download page.
 +----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+-------------+--------------+
 ; Compilation Hierarchy Node ; Logic Cells ; LC Registers ; UFM Blocks ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Carry Chain LCs ; Packed LCs ; Full Hierarchy Name ; Entity Name ; Library Name ;
 +----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+-------------+--------------+
-; |pistorm                   ; 136 (136)   ; 70           ; 0          ; 59   ; 0            ; 66 (66)      ; 23 (23)           ; 47 (47)          ; 0 (0)           ; 0 (0)      ; |pistorm            ; pistorm     ; work         ;
+; |pistorm                   ; 138 (138)   ; 71           ; 0          ; 59   ; 0            ; 67 (67)      ; 23 (23)           ; 48 (48)          ; 0 (0)           ; 0 (0)      ; |pistorm            ; pistorm     ; work         ;
 +----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+-------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -235,12 +235,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 70    ;
+; Total registers                              ; 71    ;
 ; Number of registers using Synchronous Clear  ; 0     ;
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 29    ;
+; Number of registers using Clock Enable       ; 30    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -253,11 +253,11 @@ Encoding Type:  One-Hot
 ; LTCH_A_OE_n~reg0                        ; 3       ;
 ; LTCH_D_WR_OE_n~reg0                     ; 2       ;
 ; M68K_BG_n~reg0                          ; 2       ;
-; br_sync[1]                              ; 2       ;
+; br_sync[1]                              ; 1       ;
 ; bgack_sync[1]                           ; 2       ;
 ; op_rw                                   ; 3       ;
-; berr_sync[1]                            ; 1       ;
-; dtack_sync[1]                           ; 1       ;
+; berr_sync[1]                            ; 2       ;
+; dtack_sync[1]                           ; 2       ;
 ; br_sync[0]                              ; 1       ;
 ; bgack_sync[0]                           ; 1       ;
 ; M68K_UDS_n_r                            ; 2       ;
@@ -279,10 +279,10 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output           ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------+
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |pistorm|PI_TXN_IN_PROGRESS_delay[0] ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |pistorm|vpa_pending                 ;
 ; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |pistorm|e_counter[3]                ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |pistorm|PI_TXN_IN_PROGRESS_delay[1] ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |pistorm|M68K_FC_r[0]                ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |pistorm|PI_TXN_IN_PROGRESS_delay[2] ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |pistorm|M68K_FC_r[2]                ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |pistorm|M68K_BG_n~reg0              ;
 ; 6:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |pistorm|M68K_UDS_n_r                ;
 ; 8:1                ; 2 bits    ; 10 LEs        ; 8 LEs                ; 2 LEs                  ; No         ; |pistorm|state                       ;
@@ -310,23 +310,22 @@ Info: Running Quartus Prime Analysis & Synthesis
     Info: Altera and sold by Altera or its authorized distributors.  Please
     Info: refer to the Altera Software License Subscription Agreements 
     Info: on the Quartus Prime software download page.
-    Info: Processing started: Mon Sep 21 21:25:41 2026
+    Info: Processing started: Mon Sep 21 22:27:14 2026
 Info: Command: quartus_map pistorm_epm240
-Info (125069): Default assignment values were changed in the current version of the Quartus Prime software -- changes to default assignments values are contained in file /home/xander/altera_lite/25.1std/quartus/linux64/assignment_defaults.qdf
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
 Info (12021): Found 1 design units, including 1 entities, in source file pistorm.v
     Info (12023): Found entity 1: pistorm File: /home/xander/macSE-PiStorm-DirectSocket-RTL/pistorm.v Line: 5
 Info (12127): Elaborating entity "pistorm" for the top level hierarchy
 Info (17049): 3 registers lost all their fanouts during netlist optimizations.
-Info (21057): Implemented 195 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 197 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 17 input pins
     Info (21059): Implemented 16 output pins
     Info (21060): Implemented 26 bidirectional pins
-    Info (21061): Implemented 136 logic cells
+    Info (21061): Implemented 138 logic cells
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 332 megabytes
-    Info: Processing ended: Mon Sep 21 21:25:56 2026
-    Info: Elapsed time: 00:00:15
-    Info: Total CPU time (on all processors): 00:00:39
+    Info: Processing ended: Mon Sep 21 22:27:28 2026
+    Info: Elapsed time: 00:00:14
+    Info: Total CPU time (on all processors): 00:00:35
 
 

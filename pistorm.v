@@ -200,6 +200,7 @@ module pistorm(
 
   reg [2:0] state = 3'd0;
   reg [2:0] PI_TXN_IN_PROGRESS_delay = 3'd0;
+  reg vpa_pending = 1'b0;
 
   // /BR and /BGACK are asynchronous to PI_CLK.  Synchronize them before the
   // arbitration state machine uses them.
@@ -240,6 +241,7 @@ module pistorm(
       M68K_BG_n <= 1'b1;
       state <= 3'd0;
       op_req <= 1'b0;
+      vpa_pending <= 1'b0;
       PI_TXN_IN_PROGRESS <= 1'b0;
       PI_TXN_IN_PROGRESS_delay <= 3'd0;
       LTCH_A_OE_n <= 1'b1;
@@ -318,6 +320,7 @@ module pistorm(
       3'd2: begin // S2
         M68K_FC_r <= op_fc;
         M68K_RW_r <= op_rw; // S1 -> S2
+        vpa_pending <= 1'b0;
         LTCH_D_WR_OE_n <= op_rw;
         LTCH_A_OE_n <= 1'b0;
         M68K_AS_n_r <= 1'b0;
@@ -332,17 +335,22 @@ module pistorm(
 
       3'd3: begin // S3
         op_req <= 1'b0;
-        if(c7m_rising) begin
+        if(c7m_falling) begin
           if (!dtack_sync[1] || !berr_sync[1] ||
               (!M68K_VMA_n && e_counter == 4'd8)) begin
             state <= 3'd4;
             PI_TXN_IN_PROGRESS_delay[2:0] <= 3'b111;
           end
-          else begin
-            if (!vpa_sync[1] && e_counter == 4'd2) begin
+          else if (!vpa_sync[1]) begin
+            if (!M68K_E)
               M68K_VMA_n_r <= 1'b0;
-            end
+            else
+              vpa_pending <= 1'b1;
           end
+        end
+        if (vpa_pending && !M68K_E && dtack_sync[1] && berr_sync[1]) begin
+          M68K_VMA_n_r <= 1'b0;
+          vpa_pending <= 1'b0;
         end
       end
       3'd4: begin // S4

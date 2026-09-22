@@ -1,5 +1,5 @@
 Fitter report for pistorm_epm240
-Mon Sep 21 21:25:59 2026
+Mon Sep 21 22:27:30 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -56,14 +56,14 @@ on the Quartus Prime software download page.
 +-------------------------------------------------------------------------+
 ; Fitter Summary                                                          ;
 +-----------------------+-------------------------------------------------+
-; Fitter Status         ; Successful - Mon Sep 21 21:25:59 2026           ;
+; Fitter Status         ; Successful - Mon Sep 21 22:27:30 2026           ;
 ; Quartus Prime Version ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
 ; Revision Name         ; pistorm_epm240                                  ;
 ; Top-level Entity Name ; pistorm                                         ;
 ; Family                ; MAX II                                          ;
 ; Device                ; EPM240T100C5                                    ;
 ; Timing Models         ; Final                                           ;
-; Total logic elements  ; 126 / 240 ( 53 % )                              ;
+; Total logic elements  ; 127 / 240 ( 53 % )                              ;
 ; Total pins            ; 59 / 80 ( 74 % )                                ;
 ; Total virtual pins    ; 0                                               ;
 ; UFM blocks            ; 0 / 1 ( 0 % )                                   ;
@@ -148,28 +148,28 @@ The pin-out file can be found in /home/xander/macSE-PiStorm-DirectSocket-RTL/out
 +---------------------------------------------+-----------------------+
 ; Resource                                    ; Usage                 ;
 +---------------------------------------------+-----------------------+
-; Total logic elements                        ; 126 / 240 ( 53 % )    ;
+; Total logic elements                        ; 127 / 240 ( 53 % )    ;
 ;     -- Combinational with no register       ; 56                    ;
-;     -- Register only                        ; 13                    ;
-;     -- Combinational with a register        ; 57                    ;
+;     -- Register only                        ; 12                    ;
+;     -- Combinational with a register        ; 59                    ;
 ;                                             ;                       ;
 ; Logic element usage by number of LUT inputs ;                       ;
 ;     -- 4 input functions                    ; 76                    ;
-;     -- 3 input functions                    ; 14                    ;
-;     -- 2 input functions                    ; 14                    ;
+;     -- 3 input functions                    ; 17                    ;
+;     -- 2 input functions                    ; 13                    ;
 ;     -- 1 input functions                    ; 9                     ;
 ;     -- 0 input functions                    ; 0                     ;
 ;                                             ;                       ;
 ; Logic elements by mode                      ;                       ;
-;     -- normal mode                          ; 126                   ;
+;     -- normal mode                          ; 127                   ;
 ;     -- arithmetic mode                      ; 0                     ;
-;     -- qfbk mode                            ; 10                    ;
+;     -- qfbk mode                            ; 11                    ;
 ;     -- register cascade mode                ; 0                     ;
 ;     -- synchronous clear/load mode          ; 19                    ;
 ;     -- asynchronous clear/load mode         ; 0                     ;
 ;                                             ;                       ;
-; Total registers                             ; 70 / 240 ( 29 % )     ;
-; Total LABs                                  ; 17 / 24 ( 71 % )      ;
+; Total registers                             ; 71 / 240 ( 30 % )     ;
+; Total LABs                                  ; 16 / 24 ( 67 % )      ;
 ; Logic elements in carry chains              ; 0                     ;
 ; Virtual pins                                ; 0                     ;
 ; I/O pins                                    ; 59 / 80 ( 74 % )      ;
@@ -183,12 +183,12 @@ The pin-out file can be found in /home/xander/macSE-PiStorm-DirectSocket-RTL/out
 ; Global signals                              ; 1                     ;
 ;     -- Global clocks                        ; 1 / 4 ( 25 % )        ;
 ; JTAGs                                       ; 0 / 1 ( 0 % )         ;
-; Average interconnect usage (total/H/V)      ; 18.0% / 19.1% / 16.8% ;
-; Peak interconnect usage (total/H/V)         ; 18.0% / 19.1% / 16.8% ;
-; Maximum fan-out                             ; 70                    ;
-; Highest non-global fan-out                  ; 33                    ;
-; Total fan-out                               ; 542                   ;
-; Average fan-out                             ; 2.93                  ;
+; Average interconnect usage (total/H/V)      ; 20.2% / 23.8% / 16.4% ;
+; Peak interconnect usage (total/H/V)         ; 20.2% / 23.8% / 16.4% ;
+; Maximum fan-out                             ; 71                    ;
+; Highest non-global fan-out                  ; 34                    ;
+; Total fan-out                               ; 550                   ;
+; Average fan-out                             ; 2.96                  ;
 +---------------------------------------------+-----------------------+
 
 
@@ -211,7 +211,7 @@ The pin-out file can be found in /home/xander/macSE-PiStorm-DirectSocket-RTL/out
 ; M68K_VPA_n    ; 54    ; 2        ; 8            ; 1            ; 2           ; 1                     ; 0                  ; no     ; no              ; no       ; Off          ; 3.3-V LVTTL  ; User                 ; no             ;
 ; PI_A[0]       ; 27    ; 1        ; 2            ; 0            ; 2           ; 10                    ; 0                  ; no     ; no              ; no       ; Off          ; 3.3-V LVTTL  ; User                 ; no             ;
 ; PI_A[1]       ; 28    ; 1        ; 2            ; 0            ; 1           ; 10                    ; 0                  ; no     ; no              ; no       ; Off          ; 3.3-V LVTTL  ; User                 ; no             ;
-; PI_CLK        ; 12    ; 1        ; 1            ; 3            ; 3           ; 70                    ; 0                  ; yes    ; no              ; no       ; Off          ; 3.3-V LVTTL  ; User                 ; no             ;
+; PI_CLK        ; 12    ; 1        ; 1            ; 3            ; 3           ; 71                    ; 0                  ; yes    ; no              ; no       ; Off          ; 3.3-V LVTTL  ; User                 ; no             ;
 ; PI_RD         ; 35    ; 1        ; 3            ; 0            ; 0           ; 3                     ; 0                  ; no     ; no              ; no       ; Off          ; 3.3-V LVTTL  ; User                 ; no             ;
 ; PI_WR         ; 29    ; 1        ; 2            ; 0            ; 0           ; 4                     ; 0                  ; no     ; no              ; no       ; Off          ; 3.3-V LVTTL  ; User                 ; no             ;
 +---------------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+-----------------+----------+--------------+--------------+----------------------+----------------+
@@ -250,9 +250,9 @@ The pin-out file can be found in /home/xander/macSE-PiStorm-DirectSocket-RTL/out
 ; M68K_FC[0]   ; 66    ; 2        ; 8            ; 3            ; 3           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; no         ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; bus_grant (inverted) ; -                   ;
 ; M68K_FC[1]   ; 64    ; 2        ; 8            ; 3            ; 4           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; no         ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; bus_grant (inverted) ; -                   ;
 ; M68K_FC[2]   ; 57    ; 2        ; 8            ; 2            ; 3           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; no         ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; bus_grant (inverted) ; -                   ;
-; M68K_HALT_n  ; 68    ; 2        ; 8            ; 3            ; 1           ; 10                    ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; status[1] (inverted) ; -                   ;
+; M68K_HALT_n  ; 68    ; 2        ; 8            ; 3            ; 1           ; 9                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; status[1] (inverted) ; -                   ;
 ; M68K_LDS_n   ; 74    ; 2        ; 8            ; 4            ; 0           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; no         ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; bus_grant (inverted) ; -                   ;
-; M68K_RESET_n ; 67    ; 2        ; 8            ; 3            ; 2           ; 11                    ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; status[1] (inverted) ; -                   ;
+; M68K_RESET_n ; 67    ; 2        ; 8            ; 3            ; 2           ; 10                    ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; status[1] (inverted) ; -                   ;
 ; M68K_RW      ; 75    ; 2        ; 7            ; 5            ; 0           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; no         ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; bus_grant (inverted) ; -                   ;
 ; M68K_UDS_n   ; 73    ; 2        ; 8            ; 4            ; 1           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; no         ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; bus_grant (inverted) ; -                   ;
 ; M68K_VMA_n   ; 52    ; 2        ; 8            ; 1            ; 4           ; 1                     ; 0                  ; no     ; no              ; no             ; no              ; no         ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; bus_grant (inverted) ; -                   ;
@@ -268,7 +268,7 @@ The pin-out file can be found in /home/xander/macSE-PiStorm-DirectSocket-RTL/out
 ; PI_D[3]      ; 5     ; 1        ; 1            ; 4            ; 3           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; PI_D~33              ; -                   ;
 ; PI_D[4]      ; 6     ; 1        ; 1            ; 3            ; 0           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; PI_D~33              ; -                   ;
 ; PI_D[5]      ; 7     ; 1        ; 1            ; 3            ; 1           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; PI_D~33              ; -                   ;
-; PI_D[6]      ; 26    ; 1        ; 2            ; 0            ; 3           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; yes                    ; User                 ; 10 pF ; PI_D~33              ; -                   ;
+; PI_D[6]      ; 26    ; 1        ; 2            ; 0            ; 3           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; PI_D~33              ; -                   ;
 ; PI_D[7]      ; 21    ; 1        ; 1            ; 1            ; 3           ; 0                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; PI_D~33              ; -                   ;
 ; PI_D[8]      ; 17    ; 1        ; 1            ; 2            ; 3           ; 2                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; PI_D~33              ; -                   ;
 ; PI_D[9]      ; 16    ; 1        ; 1            ; 2            ; 2           ; 1                     ; 0                  ; no     ; no              ; no             ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 16mA             ; no                     ; User                 ; 10 pF ; PI_D~33              ; -                   ;
@@ -415,7 +415,7 @@ Note: User assignments will override these defaults. The user specified values a
 +----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+-------------+--------------+
 ; Compilation Hierarchy Node ; Logic Cells ; LC Registers ; UFM Blocks ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Carry Chain LCs ; Packed LCs ; Full Hierarchy Name ; Entity Name ; Library Name ;
 +----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+-------------+--------------+
-; |pistorm                   ; 126 (126)   ; 70           ; 0          ; 59   ; 0            ; 56 (56)      ; 13 (13)           ; 57 (57)          ; 0 (0)           ; 10 (10)    ; |pistorm            ; pistorm     ; work         ;
+; |pistorm                   ; 127 (127)   ; 71           ; 0          ; 59   ; 0            ; 56 (56)      ; 12 (12)           ; 59 (59)          ; 0 (0)           ; 11 (11)    ; |pistorm            ; pistorm     ; work         ;
 +----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+-------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -492,17 +492,17 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-------------------------------+-------------+---------+---------------+--------+----------------------+------------------+
 ; Name                          ; Location    ; Fan-Out ; Usage         ; Global ; Global Resource Used ; Global Line Name ;
 +-------------------------------+-------------+---------+---------------+--------+----------------------+------------------+
-; Equal4~1                      ; LC_X5_Y1_N5 ; 3       ; Clock enable  ; no     ; --                   ; --               ;
-; M68K_FC_r~1                   ; LC_X3_Y3_N5 ; 3       ; Clock enable  ; no     ; --                   ; --               ;
-; PI_CLK                        ; PIN_12      ; 70      ; Clock         ; yes    ; Global Clock         ; GCLK0            ;
-; PI_D~33                       ; LC_X2_Y1_N8 ; 16      ; Output enable ; no     ; --                   ; --               ;
-; PI_TXN_IN_PROGRESS_delay[0]~0 ; LC_X7_Y2_N9 ; 2       ; Clock enable  ; no     ; --                   ; --               ;
-; PI_TXN_IN_PROGRESS_delay[1]~3 ; LC_X7_Y2_N2 ; 2       ; Clock enable  ; no     ; --                   ; --               ;
-; always1~0                     ; LC_X2_Y1_N4 ; 3       ; Clock enable  ; no     ; --                   ; --               ;
-; bus_grant                     ; LC_X4_Y3_N6 ; 33      ; Output enable ; no     ; --                   ; --               ;
-; c7m_falling                   ; LC_X4_Y2_N3 ; 12      ; Clock enable  ; no     ; --                   ; --               ;
-; e_counter[3]~10               ; LC_X6_Y2_N9 ; 4       ; Clock enable  ; no     ; --                   ; --               ;
-; op_rw~0                       ; LC_X2_Y2_N5 ; 6       ; Clock enable  ; no     ; --                   ; --               ;
+; Equal4~1                      ; LC_X6_Y2_N5 ; 3       ; Clock enable  ; no     ; --                   ; --               ;
+; M68K_FC_r~1                   ; LC_X2_Y3_N3 ; 3       ; Clock enable  ; no     ; --                   ; --               ;
+; PI_CLK                        ; PIN_12      ; 71      ; Clock         ; yes    ; Global Clock         ; GCLK0            ;
+; PI_D~33                       ; LC_X2_Y2_N6 ; 16      ; Output enable ; no     ; --                   ; --               ;
+; PI_TXN_IN_PROGRESS_delay[2]~2 ; LC_X4_Y2_N9 ; 2       ; Clock enable  ; no     ; --                   ; --               ;
+; always1~0                     ; LC_X2_Y2_N9 ; 3       ; Clock enable  ; no     ; --                   ; --               ;
+; bus_grant                     ; LC_X5_Y1_N2 ; 34      ; Output enable ; no     ; --                   ; --               ;
+; c7m_falling                   ; LC_X3_Y1_N5 ; 13      ; Clock enable  ; no     ; --                   ; --               ;
+; e_counter[3]~10               ; LC_X3_Y3_N8 ; 4       ; Clock enable  ; no     ; --                   ; --               ;
+; op_rw~0                       ; LC_X3_Y2_N8 ; 6       ; Clock enable  ; no     ; --                   ; --               ;
+; vpa_pending~0                 ; LC_X4_Y2_N8 ; 3       ; Clock enable  ; no     ; --                   ; --               ;
 +-------------------------------+-------------+---------+---------------+--------+----------------------+------------------+
 
 
@@ -511,7 +511,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------+----------+---------+----------------------+------------------+
 ; Name   ; Location ; Fan-Out ; Global Resource Used ; Global Line Name ;
 +--------+----------+---------+----------------------+------------------+
-; PI_CLK ; PIN_12   ; 70      ; Global Clock         ; GCLK0            ;
+; PI_CLK ; PIN_12   ; 71      ; Global Clock         ; GCLK0            ;
 +--------+----------+---------+----------------------+------------------+
 
 
@@ -520,108 +520,110 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-----------------------+--------------------+
 ; Routing Resource Type ; Usage              ;
 +-----------------------+--------------------+
-; C4s                   ; 105 / 784 ( 13 % ) ;
-; Direct links          ; 39 / 888 ( 4 % )   ;
+; C4s                   ; 99 / 784 ( 13 % )  ;
+; Direct links          ; 44 / 888 ( 5 % )   ;
 ; Global clocks         ; 1 / 4 ( 25 % )     ;
 ; LAB clocks            ; 6 / 32 ( 19 % )    ;
-; LUT chains            ; 18 / 216 ( 8 % )   ;
-; Local interconnects   ; 212 / 888 ( 24 % ) ;
-; R4s                   ; 102 / 704 ( 14 % ) ;
+; LUT chains            ; 14 / 216 ( 6 % )   ;
+; Local interconnects   ; 220 / 888 ( 25 % ) ;
+; R4s                   ; 120 / 704 ( 17 % ) ;
 +-----------------------+--------------------+
 
 
 +---------------------------------------------------------------------------+
 ; LAB Logic Elements                                                        ;
 +--------------------------------------------+------------------------------+
-; Number of Logic Elements  (Average = 7.41) ; Number of LABs  (Total = 17) ;
+; Number of Logic Elements  (Average = 7.94) ; Number of LABs  (Total = 16) ;
 +--------------------------------------------+------------------------------+
 ; 1                                          ; 3                            ;
 ; 2                                          ; 0                            ;
 ; 3                                          ; 0                            ;
-; 4                                          ; 1                            ;
+; 4                                          ; 0                            ;
 ; 5                                          ; 0                            ;
 ; 6                                          ; 0                            ;
-; 7                                          ; 2                            ;
-; 8                                          ; 0                            ;
-; 9                                          ; 5                            ;
-; 10                                         ; 6                            ;
+; 7                                          ; 1                            ;
+; 8                                          ; 1                            ;
+; 9                                          ; 1                            ;
+; 10                                         ; 10                           ;
 +--------------------------------------------+------------------------------+
 
 
 +-------------------------------------------------------------------+
 ; LAB-wide Signals                                                  ;
 +------------------------------------+------------------------------+
-; LAB-wide Signals  (Average = 1.24) ; Number of LABs  (Total = 17) ;
+; LAB-wide Signals  (Average = 1.31) ; Number of LABs  (Total = 16) ;
 +------------------------------------+------------------------------+
-; 1 Clock                            ; 17                           ;
-; 1 Clock enable                     ; 3                            ;
-; 2 Clock enables                    ; 1                            ;
+; 1 Clock                            ; 16                           ;
+; 1 Clock enable                     ; 5                            ;
 +------------------------------------+------------------------------+
 
 
 +----------------------------------------------------------------------------+
 ; LAB Signals Sourced                                                        ;
 +---------------------------------------------+------------------------------+
-; Number of Signals Sourced  (Average = 7.76) ; Number of LABs  (Total = 17) ;
+; Number of Signals Sourced  (Average = 8.38) ; Number of LABs  (Total = 16) ;
 +---------------------------------------------+------------------------------+
 ; 0                                           ; 0                            ;
 ; 1                                           ; 3                            ;
 ; 2                                           ; 0                            ;
 ; 3                                           ; 0                            ;
-; 4                                           ; 1                            ;
+; 4                                           ; 0                            ;
 ; 5                                           ; 0                            ;
 ; 6                                           ; 0                            ;
-; 7                                           ; 2                            ;
-; 8                                           ; 0                            ;
-; 9                                           ; 3                            ;
-; 10                                          ; 4                            ;
-; 11                                          ; 4                            ;
+; 7                                           ; 1                            ;
+; 8                                           ; 1                            ;
+; 9                                           ; 0                            ;
+; 10                                          ; 7                            ;
+; 11                                          ; 2                            ;
+; 12                                          ; 2                            ;
 +---------------------------------------------+------------------------------+
 
 
 +--------------------------------------------------------------------------------+
 ; LAB Signals Sourced Out                                                        ;
 +-------------------------------------------------+------------------------------+
-; Number of Signals Sourced Out  (Average = 4.82) ; Number of LABs  (Total = 17) ;
+; Number of Signals Sourced Out  (Average = 5.00) ; Number of LABs  (Total = 16) ;
 +-------------------------------------------------+------------------------------+
 ; 0                                               ; 0                            ;
 ; 1                                               ; 3                            ;
 ; 2                                               ; 0                            ;
 ; 3                                               ; 2                            ;
-; 4                                               ; 3                            ;
-; 5                                               ; 2                            ;
-; 6                                               ; 1                            ;
-; 7                                               ; 3                            ;
-; 8                                               ; 3                            ;
+; 4                                               ; 0                            ;
+; 5                                               ; 3                            ;
+; 6                                               ; 5                            ;
+; 7                                               ; 0                            ;
+; 8                                               ; 1                            ;
+; 9                                               ; 2                            ;
 +-------------------------------------------------+------------------------------+
 
 
-+----------------------------------------------------------------------------+
-; LAB Distinct Inputs                                                        ;
-+---------------------------------------------+------------------------------+
-; Number of Distinct Inputs  (Average = 9.88) ; Number of LABs  (Total = 17) ;
-+---------------------------------------------+------------------------------+
-; 0                                           ; 0                            ;
-; 1                                           ; 0                            ;
-; 2                                           ; 3                            ;
-; 3                                           ; 0                            ;
-; 4                                           ; 0                            ;
-; 5                                           ; 2                            ;
-; 6                                           ; 1                            ;
-; 7                                           ; 0                            ;
-; 8                                           ; 0                            ;
-; 9                                           ; 0                            ;
-; 10                                          ; 1                            ;
-; 11                                          ; 3                            ;
-; 12                                          ; 2                            ;
-; 13                                          ; 0                            ;
-; 14                                          ; 2                            ;
-; 15                                          ; 1                            ;
-; 16                                          ; 0                            ;
-; 17                                          ; 1                            ;
-; 18                                          ; 0                            ;
-; 19                                          ; 1                            ;
-+---------------------------------------------+------------------------------+
++-----------------------------------------------------------------------------+
+; LAB Distinct Inputs                                                         ;
++----------------------------------------------+------------------------------+
+; Number of Distinct Inputs  (Average = 10.44) ; Number of LABs  (Total = 16) ;
++----------------------------------------------+------------------------------+
+; 0                                            ; 0                            ;
+; 1                                            ; 0                            ;
+; 2                                            ; 3                            ;
+; 3                                            ; 0                            ;
+; 4                                            ; 0                            ;
+; 5                                            ; 1                            ;
+; 6                                            ; 0                            ;
+; 7                                            ; 1                            ;
+; 8                                            ; 0                            ;
+; 9                                            ; 1                            ;
+; 10                                           ; 0                            ;
+; 11                                           ; 2                            ;
+; 12                                           ; 2                            ;
+; 13                                           ; 2                            ;
+; 14                                           ; 0                            ;
+; 15                                           ; 0                            ;
+; 16                                           ; 3                            ;
+; 17                                           ; 0                            ;
+; 18                                           ; 0                            ;
+; 19                                           ; 0                            ;
+; 20                                           ; 1                            ;
++----------------------------------------------+------------------------------+
 
 
 +--------------------------------------------------------------------------------------+
@@ -677,16 +679,16 @@ Info (170191): Fitter placement operations beginning
 Info (170137): Fitter placement was successful
 Info (170192): Fitter placement operations ending: elapsed time is 00:00:00
 Info (170193): Fitter routing operations beginning
-Info (170195): Router estimated average interconnect usage is 13% of the available device resources
-    Info (170196): Router estimated peak interconnect usage is 13% of the available device resources in the region that extends from location X0_Y0 to location X8_Y5
+Info (170195): Router estimated average interconnect usage is 14% of the available device resources
+    Info (170196): Router estimated peak interconnect usage is 14% of the available device resources in the region that extends from location X0_Y0 to location X8_Y5
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
 Info (170194): Fitter routing operations ending: elapsed time is 00:00:00
-Info (11888): Total time spent on timing analysis during the Fitter is 0.13 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 0.14 seconds.
 Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:00
 Info: Quartus Prime Fitter was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 525 megabytes
-    Info: Processing ended: Mon Sep 21 21:25:59 2026
+    Info: Peak virtual memory: 518 megabytes
+    Info: Processing ended: Mon Sep 21 22:27:30 2026
     Info: Elapsed time: 00:00:02
     Info: Total CPU time (on all processors): 00:00:02
 

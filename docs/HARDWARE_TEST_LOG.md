@@ -74,3 +74,9 @@ E low:        765.931 ns
 ```
 
 The RTL's counter ratio produces the correct nominal 10-clock period and 4/6 duty ratio in simulation, but its phase relative to `/AS`, `VPA`, `VMA`, and the physical SE remains unverified. Reference: https://www.nxp.com/docs/en/reference-manual/MC68000UM.pdf, Section 4 and Section 10.11.
+
+## Timing-corrected candidate
+
+The RTL was corrected to sample synchronized `DTACK`, `BERR`, and `VPA` on the `c7m_falling` event, defer VMA until E is low, and give asynchronous termination precedence over VPA. A new EPM240 POF/SVF was synthesized from that revision.
+
+This image is a candidate for a second **isolated** hardware test. Do not reprogram it while the PiStorm is connected to a powered SE; preserve the currently booting image until the board is isolated and the JTAG ID is rechecked.
