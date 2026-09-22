@@ -57,8 +57,6 @@ module pistorm(
 
   wire c200m = PI_CLK;
   reg [2:0] c7m_sync = 3'd0;
-//  wire c7m = M68K_CLK;
-  wire c7m = c7m_sync[2];
   wire c1c3_clk = !(M68K_C1 ^ M68K_C3);
 
   localparam REG_DATA = 2'd0;
@@ -82,6 +80,18 @@ module pistorm(
     M68K_VMA_n_r <= 1'b1;
 
     M68K_BG_n <= 1'b1;
+
+    LTCH_A_0 <= 1'b0;
+    LTCH_A_8 <= 1'b0;
+    LTCH_A_16 <= 1'b0;
+    LTCH_A_24 <= 1'b0;
+    LTCH_A_OE_n <= 1'b1;
+    LTCH_D_RD_U <= 1'b0;
+    LTCH_D_RD_L <= 1'b0;
+    LTCH_D_RD_OE_n <= 1'b1;
+    LTCH_D_WR_U <= 1'b0;
+    LTCH_D_WR_L <= 1'b0;
+    LTCH_D_WR_OE_n <= 1'b1;
   end
 
   reg [1:0] rd_sync = 2'd0;
@@ -107,6 +117,8 @@ module pistorm(
   // Power-up must hold the SE CPU in reset until the Pi explicitly releases it.
   reg [15:0] status = 16'h0000;
   wire reset_out = !status[1];
+  wire external_reset_active = !reset_out && !M68K_RESET_n;
+  wire external_halt_active = !reset_out && !M68K_HALT_n;
 
   assign M68K_RESET_n = reset_out ? 1'b0 : 1'bz;
   assign M68K_HALT_n = reset_out ? 1'b0 : 1'bz;
@@ -119,18 +131,20 @@ module pistorm(
   // software writes zero in these spare bits, preserving the old protocol.
   // A Mac-aware Pi-side caller can place FC2..FC0 in PI_D[12:10].
   reg [2:0] op_fc = 3'd0;
+  wire pi_latch_active = !bus_grant && !reset_out &&
+                          !external_reset_active && !external_halt_active;
 
   always @(*) begin
-    LTCH_D_WR_U <= PI_A == REG_DATA && PI_WR;
-    LTCH_D_WR_L <= PI_A == REG_DATA && PI_WR;
+    LTCH_D_WR_U <= pi_latch_active && PI_A == REG_DATA && PI_WR;
+    LTCH_D_WR_L <= pi_latch_active && PI_A == REG_DATA && PI_WR;
 
-    LTCH_A_0 <= PI_A == REG_ADDR_LO && PI_WR;
-    LTCH_A_8 <= PI_A == REG_ADDR_LO && PI_WR;
+    LTCH_A_0 <= pi_latch_active && PI_A == REG_ADDR_LO && PI_WR;
+    LTCH_A_8 <= pi_latch_active && PI_A == REG_ADDR_LO && PI_WR;
 
-    LTCH_A_16 <= PI_A == REG_ADDR_HI && PI_WR;
-    LTCH_A_24 <= PI_A == REG_ADDR_HI && PI_WR;
+    LTCH_A_16 <= pi_latch_active && PI_A == REG_ADDR_HI && PI_WR;
+    LTCH_A_24 <= pi_latch_active && PI_A == REG_ADDR_HI && PI_WR;
 
-    LTCH_D_RD_OE_n <= !(PI_A == REG_DATA && PI_RD);
+    LTCH_D_RD_OE_n <= !pi_latch_active || !(PI_A == REG_DATA && PI_RD);
   end
 
   reg a0 = 1'b0;
@@ -164,18 +178,24 @@ module pistorm(
 
   reg [3:0] e_counter = 4'd0;
 
-  always @(negedge c7m) begin
-    if (e_counter == 4'd9)
+  // Keep all state in the PI_CLK domain.  c7m_sync is an edge detector,
+  // not a derived clock; this avoids using an unconstrained fabric clock.
+  always @(posedge c200m) begin
+    if (external_reset_active || external_halt_active) begin
       e_counter <= 4'd0;
-    else
-      e_counter <= e_counter + 4'd1;
-  end
-
-  always @(negedge c7m) begin
-    if (e_counter == 4'd9)
       M68K_E <= 1'b0;
-    else if (e_counter == 4'd5)
-      M68K_E <= 1'b1;
+    end
+    else if (c7m_falling) begin
+      if (e_counter == 4'd9) begin
+        e_counter <= 4'd0;
+        M68K_E <= 1'b0;
+      end
+      else begin
+        e_counter <= e_counter + 4'd1;
+        if (e_counter == 4'd5)
+          M68K_E <= 1'b1;
+      end
+    end
   end
 
   reg [2:0] state = 3'd0;
@@ -185,9 +205,15 @@ module pistorm(
   // arbitration state machine uses them.
   reg [1:0] br_sync = 2'b11;
   reg [1:0] bgack_sync = 2'b11;
+  reg [1:0] dtack_sync = 2'b11;
+  reg [1:0] berr_sync = 2'b11;
+  reg [1:0] vpa_sync = 2'b11;
   always @(posedge c200m) begin
     br_sync <= {br_sync[0], M68K_BR_n};
     bgack_sync <= {bgack_sync[0], M68K_BGACK_n};
+    dtack_sync <= {dtack_sync[0], M68K_DTACK_n};
+    berr_sync <= {berr_sync[0], M68K_BERR_n};
+    vpa_sync <= {vpa_sync[0], M68K_VPA_n};
   end
 
   // Direct CPU-socket arbitration.  The SE motherboard may request the
@@ -208,7 +234,26 @@ module pistorm(
   assign M68K_VMA_n = bus_grant ? 1'bz : M68K_VMA_n_r;
 
   always @(posedge c200m) begin
-
+    if (external_reset_active || external_halt_active) begin
+      bus_grant <= 1'b0;
+      bus_ack_seen <= 1'b0;
+      M68K_BG_n <= 1'b1;
+      state <= 3'd0;
+      op_req <= 1'b0;
+      PI_TXN_IN_PROGRESS <= 1'b0;
+      PI_TXN_IN_PROGRESS_delay <= 3'd0;
+      LTCH_A_OE_n <= 1'b1;
+      LTCH_D_RD_U <= 1'b0;
+      LTCH_D_RD_L <= 1'b0;
+      LTCH_D_WR_OE_n <= 1'b1;
+      M68K_FC_r <= 3'd0;
+      M68K_AS_n_r <= 1'b1;
+      M68K_UDS_n_r <= 1'b1;
+      M68K_LDS_n_r <= 1'b1;
+      M68K_RW_r <= 1'b1;
+      M68K_VMA_n_r <= 1'b1;
+    end
+    else begin
     // Three-wire 68000 arbitration, synchronized in the CPLD clock domain.
     // /BG is active low.  Do not grant during an active Pi transaction.
     if (!bus_grant && !br_sync[1] &&
@@ -288,12 +333,13 @@ module pistorm(
       3'd3: begin // S3
         op_req <= 1'b0;
         if(c7m_rising) begin
-          if (!M68K_DTACK_n || (!M68K_VMA_n && e_counter == 4'd8)) begin
+          if (!dtack_sync[1] || !berr_sync[1] ||
+              (!M68K_VMA_n && e_counter == 4'd8)) begin
             state <= 3'd4;
             PI_TXN_IN_PROGRESS_delay[2:0] <= 3'b111;
           end
           else begin
-            if (!M68K_VPA_n && e_counter == 4'd2) begin
+            if (!vpa_sync[1] && e_counter == 4'd2) begin
               M68K_VMA_n_r <= 1'b0;
             end
           end
@@ -337,6 +383,7 @@ module pistorm(
 //        end
       end
     endcase
+    end
     end
   end
 

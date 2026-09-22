@@ -2,7 +2,7 @@
 
 An independently documented, Macintosh SE-focused CPLD firmware project for a PiStorm connected directly to the original 68000 CPU socket.
 
-> **Status: build artifact complete; hardware validation pending.**
+> **Status: corrected build artifact complete; hardware validation pending.**
 >
 > The repository contains a newly synthesized EPM240 programming image, but it has not been programmed into hardware and no real Macintosh SE waveform capture has yet been performed.
 
@@ -52,6 +52,7 @@ This is not a claim that every electrical enable path on the assembled board has
 | `pistorm.sdc` | Timing constraints inherited/adapted for the design |
 | `tb_arbitration.v` | Bus request/grant/acknowledge and tri-state testbench |
 | `tb_timing.v` | E-clock, `/VPA`, `/VMA`, and transaction timing testbench |
+| `tb_safety.v` | Safe power-up, `/BERR`, and external-reset regression test |
 | `run_tests.sh` | Repeatable Icarus test runner |
 | `epm240_candidate_pinout.*` | Candidate logical-to-physical reconstruction |
 | `provisional_u4_*` | Gerber-derived physical evidence and limitations |
@@ -73,6 +74,7 @@ The tests cover:
 1. Pi-side transaction behavior and generated E-clock activity.
 2. `/VPA` response and generated `/VMA` activity.
 3. `/BR` request, `/BG` grant, `/BGACK` acknowledgement, grant release, and CPU control-output high impedance.
+4. Safe latch/transceiver controls during reset, `/BERR` cycle termination, and external reset recovery.
 
 Passing simulation does not establish electrical correctness, metastability margins, or compatibility with an unmodified Macintosh SE motherboard.
 
@@ -122,12 +124,10 @@ Errors:    0
 SVF:       generated
 ```
 
-Quartus reported two warnings that remain documented rather than hidden:
-
-- `M68K_BERR_n` is unused by the synthesized logic.
-- Derived clock `c7m_sync[2]` has no direct timing assignment.
-
-These warnings need engineering review before treating the design as production-ready.
+The corrected build has no design-functional Quartus warnings. Quartus emits only
+the installation/license notice that LogicLock is unavailable in the Lite edition.
+The earlier revision's unused `/BERR` and unconstrained derived-clock warnings
+were treated as defects and corrected; do not use the superseded SVF.
 
 ## Scope and limitations
 
@@ -139,6 +139,7 @@ This project is a research/build artifact, not a certified Macintosh replacement
 - Confirmation of `/BR` and `/BGACK` timing relative to actual motherboard arbitration.
 - Verification of external latch and transceiver enable polarity and break-before-make behavior.
 - Timing-constraint review for generated clocks and asynchronous crossings.
+- Full fault-injection coverage for reset/halt during an active transaction.
 - Confirmation that the candidate QSF pin map matches the exact populated board revision.
 
 ## Provenance
