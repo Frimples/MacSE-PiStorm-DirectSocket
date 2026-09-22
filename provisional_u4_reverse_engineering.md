@@ -57,7 +57,25 @@ than the earlier nominal model. The physical side/index labels in the CSV are
 not yet assigned to manufacturer pin numbers because the pin-1 marker and package
 orientation still need to be tied to the exact footprint definition.
 
-## What can be recovered from these Gerbers
+## New Gerber observation: EPM240/EPM570 discriminator pads
+
+Using the T100 top-view numbering and the measured U4 pad coordinates, pads 37,
+39, 88, and 90 were inspected on all four copper layers and the drill file.
+Each has a top-layer copper trace leaving the pad region in the Gerber export;
+there is no nearby plated drill transition within 0.03 inch of the pad center.
+
+This is evidence that the four positions are routed signal-style pads in this
+PCB export, rather than an immediately obvious set of EPM570 power-pad
+connections. It is **not proof** of the electrical net: a power trace can also
+run on the top layer into a copper region, and the Gerber export has no net
+names. Continuity must be followed to the destination copper region or measured
+on a physical board.
+
+The result weakens—but does not eliminate—the possibility that the BOM's
+`EPM570T100C5` entry is stale or incorrect. The physically verified EPM240
+JTAG ID and the shared dedicated pin locations remain consistent with an EPM240
+implementation.
+
 
 The copper layers can be used to recover physical connectivity:
 
