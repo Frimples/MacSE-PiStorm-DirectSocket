@@ -127,10 +127,6 @@ module pistorm(
   reg op_rw = 1'b1;
   reg op_uds_n = 1'b1;
   reg op_lds_n = 1'b1;
-  // Optional function-code transport for Mac bus decoding.  Existing Pi-side
-  // software writes zero in these spare bits, preserving the old protocol.
-  // A Mac-aware Pi-side caller can place FC2..FC0 in PI_D[12:10].
-  reg [2:0] op_fc = 3'd0;
   wire pi_latch_active = !bus_grant && !reset_out &&
                           !external_reset_active && !external_halt_active;
 
@@ -291,7 +287,6 @@ module pistorm(
           op_rw <= PI_D[9];
           op_uds_n <= PI_D[8] ? a0 : 1'b0;
           op_lds_n <= PI_D[8] ? !a0 : 1'b0;
-          op_fc <= PI_D[12:10];
         end
         REG_STATUS: begin
           status <= PI_D;
@@ -318,7 +313,11 @@ module pistorm(
         end
       end
       3'd2: begin // S2
-        M68K_FC_r <= op_fc;
+        // The current Pi-side register protocol carries the upper address
+        // byte in PI_D[15:8]; PI_D[12:10] are therefore address bits, not
+        // 68000 function-code bits.  Keep the proven standard behavior until
+        // the software protocol explicitly transports FC2..FC0.
+        M68K_FC_r <= 3'd0;
         M68K_RW_r <= op_rw; // S1 -> S2
         vpa_pending <= 1'b0;
         LTCH_D_WR_OE_n <= op_rw;

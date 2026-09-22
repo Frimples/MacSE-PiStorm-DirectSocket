@@ -37,6 +37,8 @@ quartus_cpf -c -q 100.0kHz -g 3.3 -n p \
 
 The explicit `-n p` option is required for Quartus CPF to create a programming SVF from the POF. Use `100.0kHz`, matching the repository's known-good EPM240 SVFs; generating at 10 MHz produces approximately 100x larger `RUNTEST` waits and can make `pistormflash` appear to hang.
 
+The direct-socket RTL must retain `FC=000` with the current Pi-side protocol. The Pi-side address-high write carries the upper address byte in `PI_D[15:8]`; `PI_D[12:10]` are address bits, not spare function-code fields. Do not transport FC through those bits unless the Pi-side protocol is changed at the same time.
+
 ## Recorded result
 
 ```text
