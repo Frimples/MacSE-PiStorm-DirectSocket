@@ -335,7 +335,8 @@ module pistorm(
       3'd3: begin // S3
         op_req <= 1'b0;
         if(c7m_falling) begin
-          if (!dtack_sync[1] || !berr_sync[1] ||
+          if (!M68K_DTACK_n || !dtack_sync[1] ||
+              !M68K_BERR_n || !berr_sync[1] ||
               (!M68K_VMA_n && e_counter == 4'd8)) begin
             state <= 3'd4;
             PI_TXN_IN_PROGRESS_delay[2:0] <= 3'b111;
