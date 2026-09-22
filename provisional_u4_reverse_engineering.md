@@ -71,10 +71,26 @@ run on the top layer into a copper region, and the Gerber export has no net
 names. Continuity must be followed to the destination copper region or measured
 on a physical board.
 
-The result weakens—but does not eliminate—the possibility that the BOM's
-`EPM570T100C5` entry is stale or incorrect. The physically verified EPM240
-JTAG ID and the shared dedicated pin locations remain consistent with an EPM240
-implementation.
+The trace walk also found these physical transitions:
+
+```text
+EPM240/EPM570 pin 37 -> top copper -> via near (0.49606, 1.77933 in)
+                       -> inner layer G1
+
+EPM240/EPM570 pin 39 -> top copper -> via at (0.49606, 1.57362 in)
+                       -> inner layer G2 and bottom copper
+
+EPM240/EPM570 pin 88 -> top copper -> via near (0.51575, 2.22717 in)
+                       -> bottom copper through a wider copper feature
+
+EPM240/EPM570 pin 90 -> no separate via found at the pad center in this pass
+```
+
+The coordinates are Gerber coordinates, not component net names. The pin 39
+and pin 88 paths clearly leave the U4 footprint and change layers; pin 37 also
+changes to G1. Pin 90 needs a separate region/pour inspection because the absence
+of a via does not distinguish a same-layer route from a copper pour or an
+unconnected/unused pad.
 
 
 The copper layers can be used to recover physical connectivity:
