@@ -337,7 +337,11 @@ module pistorm(
         if(c7m_falling) begin
           if (!M68K_DTACK_n || !dtack_sync[1] ||
               !M68K_BERR_n || !berr_sync[1] ||
-              (!M68K_VMA_n && e_counter == 4'd8)) begin
+              // Experimental Discord timing variant: defer VPA-cycle completion
+            // until the E-clock low-phase counter boundary rather than the
+            // earlier e_counter==8 point.  This is intentionally isolated
+            // from asynchronous DTACK/BERR completion.
+            (!M68K_VMA_n && e_counter == 4'd0)) begin
             state <= 3'd4;
             PI_TXN_IN_PROGRESS_delay[2:0] <= 3'b111;
           end
